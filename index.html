@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Email Verifier</h1>
+        <form id="email-form">
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            <button type="submit">Verify Email</button>
+        </form>
+
+        <div id="result" class="result">
+            <!-- The result message will appear here -->
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('email-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+
+            // Display loading message
+            document.getElementById('result').innerHTML = 'Verifying...';
+
+            // Make the API request to verify the email (Assuming Flask is running on localhost)
+            const response = await fetch(`/verify-email?email=${encodeURIComponent(email)}`);
+            const data = await response.json();
+
+            // Display the result
+            document.getElementById('result').innerHTML = data.result;
+        });
+    </script>
+</body>
+</html>
